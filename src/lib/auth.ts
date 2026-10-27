@@ -13,7 +13,7 @@ import { withDb } from "@/lib/db";
 import { getSetting } from "@/lib/settings";
 import { getOrCreateSessionId } from "@/lib/session";
 
-const AUTH_COOKIE = "tasty_auth";
+import { AUTH_COOKIE } from "@/lib/auth-constants";
 const SESSION_DAYS = 30;
 const MAX_AGE = 60 * 60 * 24 * SESSION_DAYS;
 
@@ -266,6 +266,14 @@ export async function getCurrentUser(): Promise<PublicUser | null> {
     email: row.email,
     role: (row.role as UserRole) || "user",
   };
+}
+
+export async function requireUser(): Promise<
+  PublicUser | { error: string; status: number }
+> {
+  const user = await getCurrentUser();
+  if (!user) return { error: "Требуется авторизация", status: 401 };
+  return user;
 }
 
 export async function requireAdmin(): Promise<

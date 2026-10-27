@@ -58,7 +58,7 @@ export default function HistoryPage() {
           История
         </h1>
         <p className="mt-3" style={{ color: "var(--ink-muted)" }}>
-          Недавние генерации в этой сессии браузера.
+          Ваши сохранённые генерации в аккаунте.
         </p>
       </section>
 

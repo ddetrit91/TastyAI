@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useAuth } from "@/components/AuthProvider";
 import { AuthShell } from "@/components/AuthShell";
 
 export function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { refresh } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,7 +30,10 @@ export function LoginForm() {
         throw new Error(data.error || "Не удалось войти");
       }
       await refresh();
-      router.push("/");
+      const next = searchParams.get("next");
+      const target =
+        next && next.startsWith("/") && !next.startsWith("//") ? next : "/";
+      router.push(target);
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Ошибка входа");
@@ -41,7 +45,7 @@ export function LoginForm() {
   return (
     <AuthShell
       title="С возвращением"
-      subtitle="Войдите, чтобы сохранять историю и избранные рецепты."
+      subtitle="Вход обязателен: без аккаунта генератор, история и избранное недоступны."
       footer={
         <>
           Нет аккаунта?{" "}

@@ -2,7 +2,7 @@
   "name": "TASTY AI",
   "short_name": "TASTY AI",
   "description": "Умный генератор рецептов из продуктов дома",
-  "start_url": "/",
+  "start_url": "/login",
   "display": "standalone",
   "background_color": "#f7f0e6",
   "theme_color": "#e85d04",
